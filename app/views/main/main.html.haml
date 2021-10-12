@@ -1,0 +1,16 @@
+%h1 Login
+
+.div{class:[alert && "alert alert-danger"]}
+  = alert
+
+.div{class:[notice && "alert alert-success"]}
+  = notice
+
+= simple_form_for @user, url: '/login', method: :post do |f|
+  .form-inputs.col-md-6.col-sm-12
+    = f.input :email, required:true
+    = f.input :password, required:true
+
+  .form-actions
+    = f.button :submit, 'Login', class:"btn btn-outline-dark mt-2"
+    = link_to 'Register', register_path, class:"btn btn-outline-dark mt-2"

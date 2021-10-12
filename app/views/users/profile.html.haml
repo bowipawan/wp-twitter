@@ -1,0 +1,22 @@
+%h1 Profile
+
+.div{class:[notice && "alert alert-success"]}
+  = notice
+.div{class:[alert && "alert alert-danger"]}
+  = alert
+
+%h5
+  %b Name:
+  = @profile.name
+%h5
+  %b Email:
+  = @profile.email
+
+= simple_form_for(@user, method: :post, url: following_path(@profile.name)) do |f|
+  .form-actions
+    -if (@profile!=@user && @is_follow)
+      = f.button :submit,'Unfollow',class:'btn btn-outline-danger mt-2',action:'Unfollow'
+    -elsif (@profile!=@user && !@is_follow)
+      = f.button :submit,'Follow',class:'btn btn-outline-success mt-2',action:'Follow'
+
+= render 'layouts/allpost'

@@ -1,0 +1,11 @@
+.card-deck
+  - @all_post.each do |post|
+    .card.mt-2
+      .card-body.h5.card-title
+        = post.msg
+      .card-footer
+        %h6
+          = "Posted by"
+          = link_to post.user.name, user_path(post.user.name)
+        %h6
+          = post.created_at.strftime("%b %d, 20%y %k:%M:%S")

@@ -1,0 +1,10 @@
+%h1 Feed
+
+.div{class:[notice && "alert alert-success"]}
+  = notice
+.div{class:[alert && "alert alert-danger"]}
+  = alert
+
+= link_to 'Create Post', '/post', class:"btn btn-dark mt-2"
+
+= render 'layouts/allpost'
