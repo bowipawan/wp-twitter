@@ -7,6 +7,9 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
   before_action :set_user_session, only: %i[ post create_post ]
 
+  def liked_user
+  end
+  
   def post
     @post = Post.new
   end

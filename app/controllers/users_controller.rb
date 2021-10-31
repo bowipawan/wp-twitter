@@ -1,23 +1,25 @@
 class UsersController < ApplicationController
   include MainConcern
+  helper_method :is_like
 
   before_action :set_user_old, only: %i[ show edit update destroy ]
   before_action :check_login, only: %i[ profile feed follow unfollow ]
-  before_action :set_user_session, only: %i[ profile feed follow unfollow following ]
+  before_action :set_user_session, only: %i[ profile feed follow unfollow following liking ]
   before_action :sef_profile, only: %i[ profile follow unfollow following ]
 
   def profile
-    @profile = User.find_by(name: params[:name])
-    @user = User.find(session[:user_id])
-    @is_follow = Follow.find_by(follower_id:@user.id,followee_id:@profile.id)
+    # @profile = User.find_by(name: params[:name])
+    # @user = User.find(session[:user_id])
+    # @is_follow = Follow.find_by(follower_id:@user.id,followee_id:@profile.id)
+    @is_follow = is_follow
     @all_post = @profile.posts
     @all_post = @all_post.sort_by{ |obj| obj.created_at }.reverse!
   end
 
   def feed
-    @all_followee = @user.follower.map{ |follow| follow.followee_id }
-    @all_post = Post.where(user_id:@all_followee)
-    @all_post = @all_post.sort_by{ |obj| obj.created_at }.reverse!
+    # @all_followee = @user.follower.map{ |follow| follow.followee_id }
+    # @all_post = Post.where(user_id:@all_followee).order('created_at DESC')
+    @all_post = @user.get_feed_post
   end
 
   def following
@@ -32,6 +34,16 @@ class UsersController < ApplicationController
         format.html { redirect_to feed_path, notice: "Unfollow "+@profile.name+" successfully" }
       end
     end
+  end
+
+  def liking
+    @post = Post.find(params[:post])
+    if(params[:commit]=='Like')
+      Like.create(user:@user,post:@post).save
+    elsif(params[:commit]=='Unlike')
+      Like.find_by(user:@user,post:@post).destroy
+    end
+    redirect_to feed_path
   end
 
   # GET /users or /users.json
@@ -97,6 +109,10 @@ class UsersController < ApplicationController
     def is_follow
       return (@user!=@profile) && (Follow.find_by(follower_id:@user.id,followee_id:@profile.id)!=nil)
     end
+
+    # def is_like
+    #   return Like.find_by(user_id:@user.id,post_id:@post)!=nil
+    # end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_user_old

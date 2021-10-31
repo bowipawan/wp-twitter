@@ -1,3 +1,5 @@
+= render 'layouts/likemodal'
+
 .card-deck
   - @all_post.each do |post|
     .card.mt-2
@@ -8,4 +10,20 @@
           = "Posted by"
           = link_to post.user.name, user_path(post.user.name)
         %h6
+          = post.likes.count
+          - if post.likes.count > 1
+            = ' Likes'
+          - else
+            = ' Like'
+          %a.wholikebutton{"data-target" => "#likeModal", "data-toggle" => "modal", :type => "button", "likers"=>"#{post.get_likers}"}
+            %h6
+              = "See who like this post"
+        %h6
           = post.created_at.strftime("%b %d, 20%y %k:%M:%S")
+        = simple_form_for(@user, method: :post, url: liking_path(post)) do |f|
+          .form-actions
+            -if post.likes.find { |like| like.user_id == @user.id}
+              = f.button :submit,'Unlike',class:'btn btn-outline-danger mt-2',action:'Unlike'
+            -else
+              = f.button :submit,'Like',class:'btn btn-outline-success mt-2',action:'Like'
+
