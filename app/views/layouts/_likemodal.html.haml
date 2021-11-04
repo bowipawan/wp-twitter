@@ -14,7 +14,7 @@
     
     $(".wholikebutton").click(function(){
       $('#likeModal').modal("show");
-      let likers = $(this).attr("likers").split(" ");
+      let likers = $(this).attr("data-likers").split(" ");
         $("#likeduser").html(likers.map(name => 
         '<li class="list-group-item" data-bs-dismiss="modal"><h6><a style="text-decoration: none;" href="/profile/'+name+'">'+name+'</a></h6></li>'
       ))

@@ -15,7 +15,7 @@
             = ' Likes'
           - else
             = ' Like'
-          %a.wholikebutton{"data-target" => "#likeModal", "data-toggle" => "modal", :type => "button", "likers"=>"#{post.get_likers}"}
+          %a.wholikebutton{"data-target" => "#likeModal", "data-toggle" => "modal", :type => "button", "data-likers"=>"#{post.get_likers}"}
             %h6
               = "See who like this post"
         %h6

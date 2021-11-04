@@ -5,7 +5,8 @@ class PostsController < ApplicationController
 
   before_action :check_login, only: %i[ ]
   before_action :set_post, only: %i[ show edit update destroy ]
-  before_action :set_user_session, only: %i[ post create_post ]
+  before_action :check_login, only: %i[ index show edit destroy ]
+  before_action :set_user_session, only: %i[ post create_post index show edit destroy ]
 
   def liked_user
   end

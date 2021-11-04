@@ -3,8 +3,8 @@ class UsersController < ApplicationController
   helper_method :is_like
 
   before_action :set_user_old, only: %i[ show edit update destroy ]
-  before_action :check_login, only: %i[ profile feed follow unfollow ]
-  before_action :set_user_session, only: %i[ profile feed follow unfollow following liking ]
+  before_action :check_login, only: %i[ profile feed follow unfollow index show edit ]
+  before_action :set_user_session, only: %i[ profile feed follow unfollow following liking index show edit ]
   before_action :sef_profile, only: %i[ profile follow unfollow following ]
 
   def profile

@@ -1,5 +1,9 @@
 class LikesController < ApplicationController
+  include MainConcern
+
   before_action :set_like, only: %i[ show edit update destroy ]
+  before_action :check_login, only: %i[ index show edit destroy ]
+  before_action :set_user_session, only: %i[ index show edit destroy ]
 
   # GET /likes or /likes.json
   def index
